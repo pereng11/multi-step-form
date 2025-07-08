@@ -1,4 +1,11 @@
-export const isValidDate = (date: Date | string): boolean => {
+import { isNil } from "./TypeUtil";
+
+export const isValidDate = (
+  date: Date | string | null | undefined
+): date is Date | string => {
+  if (isNil(date)) {
+    return false;
+  }
   return !Number.isNaN(new Date(date).getTime());
 };
 

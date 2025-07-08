@@ -1,4 +1,5 @@
 import { ReadingStatus } from "@/components/new/types/readingStatus";
+import { isDateAfter, isValidDate } from "@/utils/DateUtil";
 import { isNotNil } from "@/utils/TypeUtil";
 import { useForm } from "react-hook-form";
 import { FormFrame } from "../../../common/FormFrame";
@@ -46,16 +47,21 @@ export default function BasicStep<TStatus extends ReadingStatus>({
     statusRegister.onChange(e);
   };
 
-  const onSubmit = handleSubmit((data) => {
-    const status = data.status!;
-    const contextReturn: RecommandStepContext<typeof status> = {
-      ...context,
-      status,
-      startDate: data.startDate!,
-      endDate: data.endDate!,
-    };
-    onNext(contextReturn);
-  });
+  const onSubmit = handleSubmit(
+    (data) => {
+      const status = data.status!;
+      const contextReturn: RecommandStepContext<typeof status> = {
+        ...context,
+        status,
+        startDate: data.startDate!,
+        endDate: data.endDate!,
+      };
+      onNext(contextReturn);
+    },
+    (errors) => {
+      console.log(errors);
+    }
+  );
 
   return (
     <FormFrame onSubmit={onSubmit}>
@@ -99,8 +105,16 @@ export default function BasicStep<TStatus extends ReadingStatus>({
             id="endDate"
             type="date"
             {...register("endDate", {
-              // min: watch("startDate")?.toISOString(),
               required: needEndDate,
+              validate: (value, formValues) => {
+                if (!isValidDate(value) || !isValidDate(formValues.startDate)) {
+                  return "올바른 날짜를 입력해주세요.";
+                }
+                if (isDateAfter(formValues.startDate, value)) {
+                  return "완료일은 시작일 이후여야 합니다.";
+                }
+                return true;
+              },
             })}
           />
         </FormItem>
