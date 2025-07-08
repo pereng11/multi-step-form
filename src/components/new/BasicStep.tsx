@@ -1,31 +1,13 @@
-import { Book } from "@/types/book";
+import { ReadingStatus } from "@/components/new/types/readingStatus";
 import { isNotNil } from "@/utils/TypeUtil";
 import { useForm } from "react-hook-form";
 import { FormFrame } from "../common/FormFrame";
 import { FormItem } from "../common/FormItem";
-
-enum ReadingStatus {
-  WISH = "wish",
-  READING = "reading",
-  FINISHED = "finished",
-  PENDING = "pending",
-}
-
-type StartDate<TStatus extends ReadingStatus> =
-  TStatus extends ReadingStatus.WISH ? null : Date;
-type EndDate<TStatus extends ReadingStatus> =
-  TStatus extends ReadingStatus.FINISHED ? Date : null;
-
-export interface BasicStepContext<TStatus extends ReadingStatus = never>
-  extends Book {
-  status?: TStatus;
-  startDate?: StartDate<TStatus>;
-  endDate?: EndDate<TStatus>;
-}
+import { BasicStepContext, RecommandStepContext } from "./types/stepContext";
 
 interface Props<TStatus extends ReadingStatus> {
   context: BasicStepContext<TStatus>;
-  onNext: (context: BasicStepContext<TStatus>) => void;
+  onNext: <T extends ReadingStatus>(context: RecommandStepContext<T>) => void;
 }
 
 export default function BasicStep<TStatus extends ReadingStatus>({
@@ -42,6 +24,10 @@ export default function BasicStep<TStatus extends ReadingStatus>({
     },
   });
 
+  const needStartDate =
+    isNotNil(watch("status")) && watch("status") !== ReadingStatus.WISH;
+  const needEndDate = watch("status") === ReadingStatus.FINISHED;
+
   const statusRegister = register("status", {
     required: true,
   });
@@ -57,12 +43,15 @@ export default function BasicStep<TStatus extends ReadingStatus>({
     statusRegister.onChange(e);
   };
 
-  const needStartDate =
-    isNotNil(watch("status")) && watch("status") !== ReadingStatus.WISH;
-  const needEndDate = watch("status") === ReadingStatus.FINISHED;
-
   const onSubmit = handleSubmit((data) => {
-    onNext(data);
+    const status = data.status!;
+    const contextReturn: RecommandStepContext<typeof status> = {
+      ...context,
+      status,
+      startDate: data.startDate!,
+      endDate: data.endDate!,
+    };
+    onNext(contextReturn);
   });
 
   return (

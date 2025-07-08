@@ -1,9 +1,16 @@
-import BasicStep, { BasicStepContext } from "@/components/new/BasicStep";
+import BasicStep from "@/components/new/BasicStep";
+import RecommandStep from "@/components/new/RecommandStep";
+import { ReadingStatus } from "@/components/new/types/readingStatus";
+import {
+  BasicStepContext,
+  RecommandStepContext,
+} from "@/components/new/types/stepContext";
 import { useSimpleFunnel } from "@/hooks/funnel/useSimpleFunnel";
 
 export default function New() {
   const { Render } = useSimpleFunnel<{
-    step1: BasicStepContext;
+    step1: BasicStepContext<ReadingStatus>;
+    step2: RecommandStepContext<ReadingStatus>;
   }>({
     initial: {
       step: "step1",
@@ -19,8 +26,14 @@ export default function New() {
   return (
     <div>
       <Render
-        step1={({ context }) => (
-          <BasicStep context={context} onNext={() => {}} />
+        step1={({ context, history }) => (
+          <BasicStep
+            context={context}
+            onNext={(ctx) => history.push("step2", ctx)}
+          />
+        )}
+        step2={({ context }) => (
+          <RecommandStep context={context} onNext={() => {}} />
         )}
       />
     </div>
