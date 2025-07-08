@@ -1,9 +1,12 @@
 import { ReadingStatus } from "@/components/new/types/readingStatus";
 import { isNotNil } from "@/utils/TypeUtil";
 import { useForm } from "react-hook-form";
-import { FormFrame } from "../common/FormFrame";
-import { FormItem } from "../common/FormItem";
-import { BasicStepContext, RecommandStepContext } from "./types/stepContext";
+import { FormFrame } from "../../../common/FormFrame";
+import { FormItem } from "../../../common/FormItem";
+import {
+  BasicStepContext,
+  RecommandStepContext,
+} from "../../types/stepContext";
 
 interface Props<TStatus extends ReadingStatus> {
   context: BasicStepContext<TStatus>;

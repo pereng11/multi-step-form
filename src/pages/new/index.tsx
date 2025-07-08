@@ -1,10 +1,10 @@
-import BasicStep from "@/components/new/BasicStep";
-import RecommandStep from "@/components/new/RecommandStep";
 import { ReadingStatus } from "@/components/new/types/readingStatus";
 import {
   BasicStepContext,
   RecommandStepContext,
 } from "@/components/new/types/stepContext";
+import BasicStep from "@/components/new/view/step1/BasicStep";
+import RecommandStep from "@/components/new/view/step2/RecommandStep";
 import { useSimpleFunnel } from "@/hooks/funnel/useSimpleFunnel";
 
 export default function New() {
