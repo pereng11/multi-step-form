@@ -21,30 +21,25 @@ export type UseFunnelResults<T> = {
   Render: FunnelRenderComponent<T>;
 };
 
-type FunnelRenderProps<T> = {
-  [key in keyof T]: (props: {
-    context: T[key];
-    history: FunnelHistory<T, key>;
-  }) => ReactNode;
+export interface FunnelStepComponentProps<T, Key extends keyof T> {
+  context: T[Key];
+  history: FunnelHistory<T, Key>;
+}
+
+type FunnelStepComponent<T> = {
+  [key in keyof T]: (props: FunnelStepComponentProps<T, key>) => ReactNode;
 };
 
-export type FunnelRenderComponent<T> = ComponentType<FunnelRenderProps<T>>;
+export type FunnelRenderComponent<T> = ComponentType<FunnelStepComponent<T>>;
 
-export interface FunnelHistory<
-  TContextMap,
-  TCurrentStep extends keyof TContextMap
-> {
+export interface FunnelHistory<TContextMap, TCurrentStep extends keyof TContextMap> {
   push: <TTargetStep extends keyof TContextMap>(
     step: TTargetStep,
-    context:
-      | TContextMap[TTargetStep]
-      | ((prev: TContextMap[TCurrentStep]) => TContextMap[TTargetStep])
+    context: TContextMap[TTargetStep] | ((prev: TContextMap[TCurrentStep]) => TContextMap[TTargetStep])
   ) => Promise<void> | void;
   replace: <TTargetStep extends keyof TContextMap>(
     step: TTargetStep,
-    context:
-      | TContextMap[TTargetStep]
-      | ((prev: TContextMap[TCurrentStep]) => TContextMap[TTargetStep])
+    context: TContextMap[TTargetStep] | ((prev: TContextMap[TCurrentStep]) => TContextMap[TTargetStep])
   ) => Promise<void> | void;
   go: (index: number) => void | Promise<void>;
   back: () => void | Promise<void>;

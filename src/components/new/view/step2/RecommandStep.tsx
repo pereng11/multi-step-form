@@ -1,17 +1,16 @@
+import { FunnelStepComponentProps } from "@/hooks/funnel/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { FormFrame } from "../../../common/FormFrame";
 import { FormItem } from "../../../common/FormItem";
+import { BookReviewFunnelContext } from "../../types/funnel";
 import { Rating } from "../../types/rating";
-import { RecommandStepInputContext, RecommandStepOutputContext, recommandStepSchema } from "../../types/stepContext";
+import { recommandStepSchema } from "../../types/stepContext";
 import { StarRatingInput } from "./StarRatingInput";
 
-interface Props {
-  context: RecommandStepInputContext;
-  onNext: (context: RecommandStepOutputContext) => void;
-}
+interface Props extends FunnelStepComponentProps<BookReviewFunnelContext, "step2"> {}
 
-export default function RecommandStep({ context, onNext }: Props) {
+export default function RecommandStep({ context, history }: Props) {
   const { register, handleSubmit, setValue, watch, getFieldState, trigger, getValues, clearErrors } = useForm({
     resolver: zodResolver(recommandStepSchema),
     defaultValues: {
@@ -24,23 +23,28 @@ export default function RecommandStep({ context, onNext }: Props) {
     clearErrors("rating");
   };
 
-  const onError = () => {
-    const values = getValues();
-    Object.keys(values).forEach((fieldName) => {
-      if (fieldName !== "recommand" && fieldName !== "rating") {
-        return;
-      }
+  const onSubmit = handleSubmit(
+    (data) => {
+      // history.push("step3", data); // TODO: 다음 단계로 이동
+    },
+    () => {
+      const values = getValues();
+      Object.keys(values).forEach((fieldName) => {
+        if (fieldName !== "recommand" && fieldName !== "rating") {
+          return;
+        }
 
-      setValue(fieldName, values[fieldName], {
-        shouldTouch: true,
-        shouldValidate: true,
+        setValue(fieldName, values[fieldName], {
+          shouldTouch: true,
+          shouldValidate: true,
+        });
       });
-    });
-    trigger();
-  };
+      trigger();
+    }
+  );
 
   return (
-    <FormFrame onSubmit={handleSubmit(onNext, onError)}>
+    <FormFrame onSubmit={onSubmit}>
       <h1>{context.title}</h1>
       <FormItem direction="row">
         <label htmlFor="recommand">추천할까요?</label>

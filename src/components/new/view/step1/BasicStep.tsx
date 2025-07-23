@@ -1,17 +1,16 @@
 import { ReadingStatus } from "@/components/new/types/readingStatus";
+import { FunnelStepComponentProps } from "@/hooks/funnel/types";
 import { isNotNil } from "@/utils/TypeUtil";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { FormFrame } from "../../../common/FormFrame";
 import { FormItem } from "../../../common/FormItem";
-import { BasicStepInputContext, BasicStepOutputContext, basicStepSchema } from "../../types/stepContext";
+import { BookReviewFunnelContext } from "../../types/funnel";
+import { basicStepSchema } from "../../types/stepContext";
 
-interface Props {
-  context: BasicStepInputContext;
-  onNext: (context: BasicStepOutputContext) => void;
-}
+interface Props extends FunnelStepComponentProps<BookReviewFunnelContext, "step1"> {}
 
-export default function BasicStep({ context, onNext }: Props) {
+export default function BasicStep({ context, history }: Props) {
   const { register, watch, handleSubmit, setValue } = useForm({
     resolver: zodResolver(basicStepSchema),
     defaultValues: {
@@ -43,7 +42,7 @@ export default function BasicStep({ context, onNext }: Props) {
 
   const onSubmit = handleSubmit(
     (data) => {
-      onNext(data);
+      history.push("step2", data);
     },
     (errors) => {
       console.log(errors);

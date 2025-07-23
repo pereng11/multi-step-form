@@ -86,8 +86,7 @@ export const basicStepSchema = z
     }
   });
 
-export type BasicStepInputContext = z.input<typeof basicStepSchema>;
-export type BasicStepOutputContext = z.output<typeof basicStepSchema>;
+export type BasicStepContext = z.input<typeof basicStepSchema>;
 
 export const recommandStepSchema = z.object({
   id: z.string(),
@@ -101,5 +100,4 @@ export const recommandStepSchema = z.object({
   rating: optionalInput(ratingSchema),
 });
 
-export type RecommandStepInputContext = z.input<typeof recommandStepSchema>;
-export type RecommandStepOutputContext = z.output<typeof recommandStepSchema>;
+export type RecommandStepContext = z.input<typeof recommandStepSchema>;
