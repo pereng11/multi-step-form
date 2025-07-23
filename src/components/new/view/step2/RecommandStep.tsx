@@ -45,7 +45,6 @@ export default function RecommandStep({ context, history }: Props) {
 
   return (
     <FormFrame onSubmit={onSubmit}>
-      <h1>{context.title}</h1>
       <FormItem direction="row">
         <label htmlFor="recommand">추천할까요?</label>
         <input id="recommand" type="checkbox" {...register("recommand")} />

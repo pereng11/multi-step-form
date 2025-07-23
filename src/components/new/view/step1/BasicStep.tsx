@@ -1,18 +1,21 @@
 import { ReadingStatus } from "@/components/new/types/readingStatus";
 import { FunnelStepComponentProps } from "@/hooks/funnel/types";
+import { Book } from "@/types/book";
 import { isNotNil } from "@/utils/TypeUtil";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { FormFrame } from "../../../common/FormFrame";
 import { FormItem } from "../../../common/FormItem";
 import { BookReviewFunnelContext } from "../../types/funnel";
-import { basicStepSchema } from "../../types/stepContext";
+import { createBasicStepSchema } from "../../types/stepContext";
 
-interface Props extends FunnelStepComponentProps<BookReviewFunnelContext, "step1"> {}
+interface Props extends FunnelStepComponentProps<BookReviewFunnelContext, "step1"> {
+  book: Book;
+}
 
-export default function BasicStep({ context, history }: Props) {
+export default function BasicStep({ context, history, book }: Props) {
   const { register, watch, handleSubmit, setValue } = useForm({
-    resolver: zodResolver(basicStepSchema),
+    resolver: zodResolver(createBasicStepSchema(book)),
     defaultValues: {
       ...context,
     },
@@ -51,10 +54,10 @@ export default function BasicStep({ context, history }: Props) {
 
   return (
     <FormFrame onSubmit={onSubmit}>
-      <h1>{context.title}</h1>
+      <h1>{book.title}</h1>
       <FormItem>
         <span>출판일</span>
-        <p>{context.publishedAt}</p>
+        <p>{book.publishedAt}</p>
       </FormItem>
       <FormItem>
         <span>독서 상태</span>
