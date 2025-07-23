@@ -1,8 +1,10 @@
-import { ID } from "./id";
+import * as z from "zod";
 
-export interface Book {
-  id: ID;
-  title: string;
-  page: number;
-  publishedAt: Date;
-}
+export const bookSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  page: z.number(),
+  publishedAt: z.date(),
+});
+
+export type Book = z.infer<typeof bookSchema>;

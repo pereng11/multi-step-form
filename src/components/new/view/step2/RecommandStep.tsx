@@ -1,33 +1,28 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { FormFrame } from "../../../common/FormFrame";
 import { FormItem } from "../../../common/FormItem";
-import { ReadingStatus } from "../../types/readingStatus";
-import { RecommandStepContext } from "../../types/stepContext";
+import { Rating } from "../../types/rating";
+import { RecommandStepInputContext, RecommandStepOutputContext, recommandStepSchema } from "../../types/stepContext";
 import { StarRatingInput } from "./StarRatingInput";
 
-interface Props<TStatus extends ReadingStatus> {
-  context: RecommandStepContext<TStatus>;
-  onNext: (context: RecommandStepContext<TStatus>) => void;
+interface Props {
+  context: RecommandStepInputContext;
+  onNext: (context: RecommandStepOutputContext) => void;
 }
 
-export default function RecommandStep<TStatus extends ReadingStatus>({
-  context,
-  onNext,
-}: Props<TStatus>) {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    getFieldState,
-    trigger,
-    getValues,
-  } = useForm<RecommandStepContext<TStatus>>({
+export default function RecommandStep({ context, onNext }: Props) {
+  const { register, handleSubmit, setValue, watch, getFieldState, trigger, getValues, clearErrors } = useForm({
+    resolver: zodResolver(recommandStepSchema),
     defaultValues: {
-      recommand: context.recommand ?? true,
-      rating: context.rating,
+      ...context,
     },
   });
+
+  const handleChangeRating = (value: Rating) => {
+    setValue("rating", value);
+    clearErrors("rating");
+  };
 
   const onError = () => {
     const values = getValues();
@@ -54,9 +49,9 @@ export default function RecommandStep<TStatus extends ReadingStatus>({
       <FormItem>
         <label htmlFor="rating">평점</label>
         <StarRatingInput
-          {...register("rating", { required: true })}
+          {...register("rating")}
           value={watch("rating")}
-          onChange={(v) => setValue("rating", v)}
+          onChange={handleChangeRating}
           isError={getFieldState("rating").invalid}
         />
       </FormItem>

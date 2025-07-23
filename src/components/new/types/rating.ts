@@ -1,1 +1,17 @@
-export type Rating = 0 | 0.5 | 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 4.5 | 5;
+import { z } from "zod";
+
+export const ratingSchema = z.union([
+  z.literal(0),
+  z.literal(0.5),
+  z.literal(1),
+  z.literal(1.5),
+  z.literal(2),
+  z.literal(2.5),
+  z.literal(3),
+  z.literal(3.5),
+  z.literal(4),
+  z.literal(4.5),
+  z.literal(5),
+]);
+
+export type Rating = z.infer<typeof ratingSchema>;

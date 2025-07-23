@@ -1,16 +1,12 @@
-import { ReadingStatus } from "@/components/new/types/readingStatus";
-import {
-  BasicStepContext,
-  RecommandStepContext,
-} from "@/components/new/types/stepContext";
+import { BasicStepInputContext, RecommandStepInputContext } from "@/components/new/types/stepContext";
 import BasicStep from "@/components/new/view/step1/BasicStep";
 import RecommandStep from "@/components/new/view/step2/RecommandStep";
 import { useSimpleFunnel } from "@/hooks/funnel/useSimpleFunnel";
 
 export default function New() {
   const { Render } = useSimpleFunnel<{
-    step1: BasicStepContext<ReadingStatus>;
-    step2: RecommandStepContext<ReadingStatus>;
+    step1: BasicStepInputContext;
+    step2: RecommandStepInputContext;
   }>({
     initial: {
       step: "step1",
@@ -18,7 +14,7 @@ export default function New() {
         id: "1",
         title: "눈물을 마시는 새",
         page: 1000,
-        publishedAt: new Date("2025-01-01"),
+        publishedAt: "2025-01-01",
       },
     },
   });
@@ -26,15 +22,8 @@ export default function New() {
   return (
     <div>
       <Render
-        step1={({ context, history }) => (
-          <BasicStep
-            context={context}
-            onNext={(ctx) => history.push("step2", ctx)}
-          />
-        )}
-        step2={({ context }) => (
-          <RecommandStep context={context} onNext={() => {}} />
-        )}
+        step1={({ context, history }) => <BasicStep context={context} onNext={(ctx) => history.push("step2", ctx)} />}
+        step2={({ context }) => <RecommandStep context={context} onNext={() => {}} />}
       />
     </div>
   );
