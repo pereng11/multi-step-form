@@ -5,6 +5,12 @@ import * as z from "zod";
 import { ratingSchema } from "./rating";
 import { ReadingStatus } from "./readingStatus";
 
+export type BookReviewFunnelContext = {
+  step1: BasicStepContext;
+  step2: RecommandStepContext;
+  step3: BookReportStepContext;
+};
+
 export const createBasicStepSchema = (book: Book) => {
   return z
     .object({
@@ -102,3 +108,27 @@ export const recommandStepSchema = z.object({
 });
 
 export type RecommandStepContext = z.input<typeof recommandStepSchema>;
+
+export const bookReportStepSchema = z
+  .object({
+    status: z.enum(ReadingStatus),
+    startDate: z.iso.date().nullable(),
+    endDate: z.iso.date().nullable(),
+    recommand: z.boolean(),
+    rating: ratingSchema,
+    report: optionalInput(z.string().nullable()),
+  })
+  .check(({ value, issues }) => {
+    const needReport = value.rating <= 1 || value.rating === 5;
+    const isReportValid = !needReport || z.string().min(100).safeParse(value.report).success;
+    if (!isReportValid) {
+      issues.push({
+        code: "custom",
+        input: value,
+        message: "평점이 1점 이하 또는 5점인 경우 리뷰를 작성해야 합니다.",
+        path: ["report"],
+      });
+    }
+  });
+
+export type BookReportStepContext = z.input<typeof bookReportStepSchema>;

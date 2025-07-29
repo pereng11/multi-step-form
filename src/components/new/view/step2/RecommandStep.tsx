@@ -3,9 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { FormFrame } from "../../../common/FormFrame";
 import { FormItem } from "../../../common/FormItem";
-import { BookReviewFunnelContext } from "../../types/funnel";
 import { Rating } from "../../types/rating";
-import { recommandStepSchema } from "../../types/stepContext";
+import { BookReviewFunnelContext, recommandStepSchema } from "../../types/stepContext";
 import { StarRatingInput } from "./StarRatingInput";
 
 interface Props extends FunnelStepComponentProps<BookReviewFunnelContext, "step2"> {}
@@ -25,7 +24,7 @@ export default function RecommandStep({ context, history }: Props) {
 
   const onSubmit = handleSubmit(
     (data) => {
-      // history.push("step3", data); // TODO: 다음 단계로 이동
+      history.push("step3", data);
     },
     () => {
       const values = getValues();

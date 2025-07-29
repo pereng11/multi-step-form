@@ -6,8 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { FormFrame } from "../../../common/FormFrame";
 import { FormItem } from "../../../common/FormItem";
-import { BookReviewFunnelContext } from "../../types/funnel";
-import { createBasicStepSchema } from "../../types/stepContext";
+import { BookReviewFunnelContext, createBasicStepSchema } from "../../types/stepContext";
 
 interface Props extends FunnelStepComponentProps<BookReviewFunnelContext, "step1"> {
   book: Book;
