@@ -7,7 +7,7 @@ import { ReadingStatus } from "../../../apis/review/vo/readingStatus";
 
 export type BookReviewFunnelContext = {
   step1: BasicStepContext;
-  step2: RecommandStepContext;
+  step2: RecommendStepContext;
   step3: BookReportStepContext;
   step4: QuoteStepContext;
   step5: PublishStepContext;
@@ -131,24 +131,24 @@ export const createBasicStepSchema = (book: Book) => {
 
 type BasicStepContext = z.input<ReturnType<typeof createBasicStepSchema>>;
 
-export const recommandStepSchema = z.object({
+export const recommendStepSchema = z.object({
   status: z.enum(ReadingStatus),
   startDate: z.iso.date().nullable(),
   endDate: z.iso.date().nullable(),
-  recommand: optionalInput(z.boolean().default(false)),
+  recommend: optionalInput(z.boolean().default(false)),
   rating: optionalInput(ratingSchema).refine((value) => value !== 0, {
     message: "평점을 선택해주세요.",
   }),
 });
 
-type RecommandStepContext = z.input<typeof recommandStepSchema>;
+type RecommendStepContext = z.input<typeof recommendStepSchema>;
 
 export const bookReportStepSchema = z
   .object({
     status: z.enum(ReadingStatus),
     startDate: z.iso.date().nullable(),
     endDate: z.iso.date().nullable(),
-    recommand: z.boolean(),
+    recommend: z.boolean(),
     rating: ratingSchema,
     report: optionalInput(z.string().nullable()),
   })
@@ -173,7 +173,7 @@ export const createQuoteStepSchema = (book: Book) =>
       status: z.enum(ReadingStatus),
       startDate: z.iso.date().nullable(),
       endDate: z.iso.date().nullable(),
-      recommand: z.boolean(),
+      recommend: z.boolean(),
       rating: ratingSchema,
       report: z.string().nullable(),
       quotes: optionalInput(z.array(quoteSchema)),
@@ -222,7 +222,7 @@ export const publishStepSchema = z.object({
   status: z.enum(ReadingStatus),
   startDate: z.iso.date().nullable(),
   endDate: z.iso.date().nullable(),
-  recommand: z.boolean(),
+  recommend: z.boolean(),
   rating: ratingSchema,
   report: z.string().nullable(),
   quotes: z.array(quoteSchema),

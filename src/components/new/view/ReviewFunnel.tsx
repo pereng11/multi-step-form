@@ -3,7 +3,7 @@ import { useSimpleFunnel } from "@/hooks/funnel/useSimpleFunnel";
 import { useSearchParams } from "next/navigation";
 import { BookReviewFunnelContext } from "../types/stepContext";
 import BasicStep from "./step1/BasicStep";
-import RecommandStep from "./step2/RecommandStep";
+import RecommendStep from "./step2/RecommendStep";
 import BookReportStep from "./step3/BookReportStep";
 import QuoteStep from "./step4/QuoteStep";
 import PublishStep from "./step5/PublishStep";
@@ -30,7 +30,7 @@ export const ReviewFunnel = () => {
     <div>
       <Render
         step1={(props) => <BasicStep {...props} book={book} />}
-        step2={RecommandStep}
+        step2={RecommendStep}
         step3={BookReportStep}
         step4={(props) => <QuoteStep {...props} book={book} />}
         step5={PublishStep}

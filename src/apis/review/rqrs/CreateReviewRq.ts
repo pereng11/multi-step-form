@@ -7,7 +7,7 @@ export const createReviewRqSchema = z.object({
   status: z.enum(ReadingStatus),
   startDate: z.iso.date().nullable(),
   endDate: z.iso.date().nullable(),
-  recommand: z.boolean(),
+  recommend: z.boolean(),
   rating: ratingSchema,
   report: z.string().nullable(),
   quotes: z.array(quoteSchema),

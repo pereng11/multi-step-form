@@ -5,12 +5,12 @@ import { useForm } from "react-hook-form";
 import { Rating } from "../../../../apis/review/vo/rating";
 import { FormFrame } from "../../../common/form/FormFrame";
 import { FormItem } from "../../../common/form/FormItem";
-import { BookReviewFunnelContext, recommandStepSchema } from "../../types/stepContext";
+import { BookReviewFunnelContext, recommendStepSchema } from "../../types/stepContext";
 import { StarRatingInput } from "./StarRatingInput";
 
 interface Props extends FunnelStepComponentProps<BookReviewFunnelContext, "step2"> {}
 
-export default function RecommandStep({ context, history }: Props) {
+export default function RecommendStep({ context, history }: Props) {
   const {
     register,
     handleSubmit,
@@ -19,7 +19,7 @@ export default function RecommandStep({ context, history }: Props) {
     formState: { errors },
     clearErrors,
   } = useForm({
-    resolver: zodResolver(recommandStepSchema),
+    resolver: zodResolver(recommendStepSchema),
     defaultValues: {
       ...context,
     },
@@ -37,8 +37,8 @@ export default function RecommandStep({ context, history }: Props) {
   return (
     <FormFrame onSubmit={onSubmit}>
       <FormItem direction="row">
-        <label htmlFor="recommand">추천할까요?</label>
-        <input id="recommand" type="checkbox" {...register("recommand")} />
+        <label htmlFor="recommend">추천할까요?</label>
+        <input id="recommend" type="checkbox" {...register("recommend")} />
       </FormItem>
       <FormItem>
         <label htmlFor="rating">평점</label>
