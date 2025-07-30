@@ -1,4 +1,4 @@
-import { ErrorMessage } from "@/components/common/ErrorMessage";
+import { ErrorMessage } from "@/components/common/form/ErrorMessage";
 import { isNil } from "@/utils/TypeUtil";
 import styled from "@emotion/styled";
 import { FieldArrayWithId, FieldErrors, UseFormRegister } from "react-hook-form";

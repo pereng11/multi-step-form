@@ -1,5 +1,5 @@
 import { Book } from "@/apis/book/vo/book";
-import { FormFrame } from "@/components/common/FormFrame";
+import { FormFrame } from "@/components/common/form/FormFrame";
 import { FunnelStepComponentProps } from "@/hooks/funnel/types";
 import styled from "@emotion/styled";
 import { zodResolver } from "@hookform/resolvers/zod";

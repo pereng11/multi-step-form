@@ -1,6 +1,6 @@
-import { ErrorMessage } from "@/components/common/ErrorMessage";
-import { FormFrame } from "@/components/common/FormFrame";
-import { FormItem } from "@/components/common/FormItem";
+import { ErrorMessage } from "@/components/common/form/ErrorMessage";
+import { FormFrame } from "@/components/common/form/FormFrame";
+import { FormItem } from "@/components/common/form/FormItem";
 import { FunnelStepComponentProps } from "@/hooks/funnel/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";

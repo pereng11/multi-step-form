@@ -1,6 +1,6 @@
 import { ReviewRequest } from "@/apis/review/request/ReviewRequest";
-import { FormFrame } from "@/components/common/FormFrame";
-import { FormItem } from "@/components/common/FormItem";
+import { FormFrame } from "@/components/common/form/FormFrame";
+import { FormItem } from "@/components/common/form/FormItem";
 import { FunnelStepComponentProps } from "@/hooks/funnel/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
