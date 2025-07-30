@@ -157,7 +157,7 @@ export const bookReportStepSchema = z
       issues.push({
         code: "custom",
         input: value,
-        message: "평점이 1점 이하 또는 5점인 경우 리뷰를 작성해야 합니다.",
+        message: "평점이 1점 이하 또는 5점인 경우 리뷰를 100자 이상 작성해야 합니다.",
         path: ["report"],
       });
     }

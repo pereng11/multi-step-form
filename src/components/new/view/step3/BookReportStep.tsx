@@ -1,3 +1,4 @@
+import { ErrorMessage } from "@/components/common/ErrorMessage";
 import { FormFrame } from "@/components/common/FormFrame";
 import { FormItem } from "@/components/common/FormItem";
 import { FunnelStepComponentProps } from "@/hooks/funnel/types";
@@ -11,7 +12,6 @@ export default function BookReportStep({ context, history }: Props) {
   const {
     register,
     handleSubmit,
-    trigger,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(bookReportStepSchema),
@@ -20,22 +20,16 @@ export default function BookReportStep({ context, history }: Props) {
     },
   });
 
-  const onSubmit = handleSubmit(
-    (data) => {
-      // TODO: 리뷰 저장
-      console.log(data);
-    },
-    () => {
-      trigger();
-    }
-  );
+  const onSubmit = handleSubmit((data) => {
+    history.push("step4", data);
+  });
 
   return (
     <FormFrame onSubmit={onSubmit}>
       <FormItem>
         <label htmlFor="report">리뷰</label>
         <textarea id="report" {...register("report")} />
-        {errors.report && <p>{errors.report.message}</p>}
+        {errors.report && <ErrorMessage>{errors.report.message}</ErrorMessage>}
       </FormItem>
       <button type="submit">다음</button>
     </FormFrame>
