@@ -10,6 +10,7 @@ export type BookReviewFunnelContext = {
   step2: RecommandStepContext;
   step3: BookReportStepContext;
   step4: QuoteStepContext;
+  step5: PublishStepContext;
 };
 
 export const createBasicStepSchema = (book: Book) => {
@@ -216,3 +217,16 @@ export const createQuoteStepSchema = (book: Book) =>
     });
 
 export type QuoteStepContext = z.input<ReturnType<typeof createQuoteStepSchema>>;
+
+export const publishStepSchema = z.object({
+  status: z.enum(ReadingStatus),
+  startDate: z.iso.date().nullable(),
+  endDate: z.iso.date().nullable(),
+  recommand: z.boolean(),
+  rating: ratingSchema,
+  report: z.string().nullable(),
+  quotes: z.array(quoteSchema),
+  isPublic: optionalInput(z.boolean()),
+});
+
+type PublishStepContext = z.input<typeof publishStepSchema>;

@@ -30,7 +30,7 @@ export default function QuoteStep({ context, history, book }: Props) {
   });
 
   const onSubmit = handleSubmit((data) => {
-    // history.push("step5", data);
+    history.push("step5", data);
   });
 
   return (
