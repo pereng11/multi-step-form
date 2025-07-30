@@ -1,3 +1,4 @@
+import { ErrorMessage } from "@/components/common/ErrorMessage";
 import { FunnelStepComponentProps } from "@/hooks/funnel/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -10,7 +11,14 @@ import { StarRatingInput } from "./StarRatingInput";
 interface Props extends FunnelStepComponentProps<BookReviewFunnelContext, "step2"> {}
 
 export default function RecommandStep({ context, history }: Props) {
-  const { register, handleSubmit, setValue, watch, getFieldState, trigger, getValues, clearErrors } = useForm({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+    clearErrors,
+  } = useForm({
     resolver: zodResolver(recommandStepSchema),
     defaultValues: {
       ...context,
@@ -22,25 +30,9 @@ export default function RecommandStep({ context, history }: Props) {
     clearErrors("rating");
   };
 
-  const onSubmit = handleSubmit(
-    (data) => {
-      history.push("step3", data);
-    },
-    () => {
-      const values = getValues();
-      Object.keys(values).forEach((fieldName) => {
-        if (fieldName !== "recommand" && fieldName !== "rating") {
-          return;
-        }
-
-        setValue(fieldName, values[fieldName], {
-          shouldTouch: true,
-          shouldValidate: true,
-        });
-      });
-      trigger();
-    }
-  );
+  const onSubmit = handleSubmit((data) => {
+    history.push("step3", data);
+  });
 
   return (
     <FormFrame onSubmit={onSubmit}>
@@ -51,11 +43,13 @@ export default function RecommandStep({ context, history }: Props) {
       <FormItem>
         <label htmlFor="rating">평점</label>
         <StarRatingInput
-          {...register("rating")}
+          {...register("rating", {
+            valueAsNumber: true,
+          })}
           value={watch("rating")}
           onChange={handleChangeRating}
-          isError={getFieldState("rating").invalid}
         />
+        {errors.rating && <ErrorMessage>{errors.rating.message}</ErrorMessage>}
       </FormItem>
       <button type="submit">다음</button>
     </FormFrame>

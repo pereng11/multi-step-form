@@ -133,8 +133,10 @@ export const recommandStepSchema = z.object({
   status: z.enum(ReadingStatus),
   startDate: z.iso.date().nullable(),
   endDate: z.iso.date().nullable(),
-  recommand: optionalInput(z.boolean()),
-  rating: optionalInput(ratingSchema, "평점을 선택해주세요."),
+  recommand: optionalInput(z.boolean().default(false)),
+  rating: optionalInput(ratingSchema).refine((value) => value !== 0, {
+    message: "평점을 선택해주세요.",
+  }),
 });
 
 type RecommandStepContext = z.input<typeof recommandStepSchema>;

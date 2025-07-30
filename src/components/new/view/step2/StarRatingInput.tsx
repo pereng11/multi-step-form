@@ -11,13 +11,7 @@ const StarIcon = ({ filled, half }: { filled: boolean; half: boolean }) => {
   if (half) {
     // 반 별 SVG
     return (
-      <svg
-        width="32"
-        height="32"
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-        focusable="false"
-      >
+      <svg width="32" height="32" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
         <defs>
           <linearGradient id="half">
             <stop offset="50%" stopColor="#FFD600" />
@@ -32,13 +26,7 @@ const StarIcon = ({ filled, half }: { filled: boolean; half: boolean }) => {
     );
   }
   return (
-    <svg
-      width="32"
-      height="32"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      focusable="false"
-    >
+    <svg width="32" height="32" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
       <path
         d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
         fill={filled ? "#FFD600" : "#E0E0E0"}
@@ -46,19 +34,12 @@ const StarIcon = ({ filled, half }: { filled: boolean; half: boolean }) => {
     </svg>
   );
 };
-interface StarRatingProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, "onChange"> {
+interface StarRatingProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "onChange"> {
   value?: Rating;
   onChange: (value: Rating) => void;
-  isError?: boolean;
 }
 
-export const StarRatingInput: React.FC<StarRatingProps> = ({
-  value,
-  onChange,
-  isError,
-  ...restProps
-}) => {
+export const StarRatingInput: React.FC<StarRatingProps> = ({ value, onChange, ...restProps }) => {
   const [stars, setStars] = useState<Record<StarValue, StarStatus>>({
     1: "none",
     2: "none",
@@ -87,10 +68,7 @@ export const StarRatingInput: React.FC<StarRatingProps> = ({
     hoveringStatusRef.current = isHalf ? "half" : "full";
   };
 
-  const handleMouseClick = (
-    e: React.MouseEvent<HTMLSpanElement>,
-    star: StarValue
-  ) => {
+  const handleMouseClick = (e: React.MouseEvent<HTMLSpanElement>, star: StarValue) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const centerX = rect.width / 2;
@@ -112,7 +90,7 @@ export const StarRatingInput: React.FC<StarRatingProps> = ({
       <SrOnlyLabel>
         <input
           type="number"
-          value={value ?? ""}
+          value={value ?? 0}
           onChange={(e) => onChange(e.target.valueAsNumber as Rating)}
           {...restProps}
         />
@@ -130,7 +108,6 @@ export const StarRatingInput: React.FC<StarRatingProps> = ({
           </StarContainer>
         );
       })}
-      {isError && <ErrorText>평점을 선택해주세요.</ErrorText>}
     </div>
   );
 };
@@ -159,10 +136,4 @@ const StarContainer = styled.span`
   padding: 0;
   margin: 0;
   display: inline-flex;
-`;
-
-const ErrorText = styled.p`
-  color: red;
-  font-size: 12px;
-  margin-top: 4px;
 `;
