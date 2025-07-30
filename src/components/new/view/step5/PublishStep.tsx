@@ -1,7 +1,9 @@
+import { ReviewRequest } from "@/apis/review/request/ReviewRequest";
 import { FormFrame } from "@/components/common/FormFrame";
 import { FormItem } from "@/components/common/FormItem";
 import { FunnelStepComponentProps } from "@/hooks/funnel/types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { BookReviewFunnelContext, publishStepSchema } from "../../types/stepContext";
 
@@ -14,9 +16,13 @@ export default function PublishStep({ context }: Props) {
       ...context,
     },
   });
+  const { mutate: createReview } = useMutation({
+    mutationFn: ReviewRequest.create,
+  });
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
+    createReview(data);
+    // TODO: 리뷰 생성 후 목록 페이지로 이동
   });
 
   return (
