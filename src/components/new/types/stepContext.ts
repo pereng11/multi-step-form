@@ -1,6 +1,7 @@
 import { Book } from "@/types/book";
-import { isNotNil, optionalInput } from "@/utils/TypeUtil";
+import { isNil, isNotNil, optionalInput } from "@/utils/TypeUtil";
 import * as z from "zod";
+import { quoteSchema } from "./quote";
 import { ratingSchema } from "./rating";
 import { ReadingStatus } from "./readingStatus";
 
@@ -165,14 +166,53 @@ export const bookReportStepSchema = z
 
 type BookReportStepContext = z.input<typeof bookReportStepSchema>;
 
-export const quoteStepSchema = z.object({
-  status: z.enum(ReadingStatus),
-  startDate: z.iso.date().nullable(),
-  endDate: z.iso.date().nullable(),
-  recommand: z.boolean(),
-  rating: ratingSchema,
-  report: optionalInput(z.string().nullable()),
-  quote: optionalInput(z.string().nullable()),
-});
+export const createQuoteStepSchema = (book: Book) =>
+  z
+    .object({
+      status: z.enum(ReadingStatus),
+      startDate: z.iso.date().nullable(),
+      endDate: z.iso.date().nullable(),
+      recommand: z.boolean(),
+      rating: ratingSchema,
+      report: z.string().nullable(),
+      quotes: optionalInput(z.array(quoteSchema)),
+    })
+    .check(({ value, issues }) => {
+      if (value.quotes) {
+        value.quotes.forEach((quote, index) => {
+          if (value.quotes.length > 1) {
+            if (isNil(quote.page)) {
+              issues.push({
+                code: "custom",
+                input: value,
+                message: "페이지 번호를 입력해주세요.",
+                path: ["quotes", index, "page"],
+              });
+              return;
+            }
+          }
 
-type QuoteStepContext = z.input<typeof quoteStepSchema>;
+          if (isNotNil(quote.page) && quote.page < 1) {
+            issues.push({
+              code: "custom",
+              input: value,
+              message: "페이지 번호는 1 이상이어야 합니다.",
+              path: ["quotes", index, "page"],
+            });
+            return;
+          }
+
+          if (isNotNil(quote.page) && quote.page > book.page) {
+            issues.push({
+              code: "custom",
+              input: value,
+              message: "페이지 번호는 책의 페이지 수를 넘을 수 없습니다.",
+              path: ["quotes", index, "page"],
+            });
+            return;
+          }
+        });
+      }
+    });
+
+export type QuoteStepContext = z.input<ReturnType<typeof createQuoteStepSchema>>;

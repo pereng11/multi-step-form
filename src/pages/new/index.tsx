@@ -2,6 +2,7 @@ import { BookReviewFunnelContext } from "@/components/new/types/stepContext";
 import BasicStep from "@/components/new/view/step1/BasicStep";
 import RecommandStep from "@/components/new/view/step2/RecommandStep";
 import BookReportStep from "@/components/new/view/step3/BookReportStep";
+import QuoteStep from "@/components/new/view/step4/QuoteStep";
 import { useSimpleFunnel } from "@/hooks/funnel/useSimpleFunnel";
 
 export default function New() {
@@ -22,7 +23,12 @@ export default function New() {
 
   return (
     <div>
-      <Render step1={(props) => <BasicStep {...props} book={book} />} step2={RecommandStep} step3={BookReportStep} />
+      <Render
+        step1={(props) => <BasicStep {...props} book={book} />}
+        step2={RecommandStep}
+        step3={BookReportStep}
+        step4={(props) => <QuoteStep {...props} book={book} />}
+      />
     </div>
   );
 }
