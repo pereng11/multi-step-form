@@ -2,9 +2,9 @@ import { ErrorMessage } from "@/components/common/ErrorMessage";
 import { FunnelStepComponentProps } from "@/hooks/funnel/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { Rating } from "../../../../apis/review/vo/rating";
 import { FormFrame } from "../../../common/FormFrame";
 import { FormItem } from "../../../common/FormItem";
-import { Rating } from "../../types/rating";
 import { BookReviewFunnelContext, recommandStepSchema } from "../../types/stepContext";
 import { StarRatingInput } from "./StarRatingInput";
 

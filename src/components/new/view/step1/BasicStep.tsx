@@ -1,5 +1,5 @@
+import { ReadingStatus } from "@/apis/review/vo/readingStatus";
 import { ErrorMessage } from "@/components/common/ErrorMessage";
-import { ReadingStatus } from "@/components/new/types/readingStatus";
 import { FunnelStepComponentProps } from "@/hooks/funnel/types";
 import { Book } from "@/types/book";
 import { isNil, isNotNil } from "@/utils/TypeUtil";

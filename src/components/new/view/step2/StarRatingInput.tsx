@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import React, { InputHTMLAttributes, useRef, useState } from "react";
-import { Rating } from "../../types/rating";
+import { Rating } from "../../../../apis/review/vo/rating";
 
 const STAR_LIST = [1, 2, 3, 4, 5] as const;
 

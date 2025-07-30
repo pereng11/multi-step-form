@@ -1,9 +1,9 @@
 import { Book } from "@/types/book";
 import { isNil, isNotNil, optionalInput } from "@/utils/TypeUtil";
 import * as z from "zod";
-import { quoteSchema } from "./quote";
-import { ratingSchema } from "./rating";
-import { ReadingStatus } from "./readingStatus";
+import { quoteSchema } from "../../../apis/review/vo/quote";
+import { ratingSchema } from "../../../apis/review/vo/rating";
+import { ReadingStatus } from "../../../apis/review/vo/readingStatus";
 
 export type BookReviewFunnelContext = {
   step1: BasicStepContext;
