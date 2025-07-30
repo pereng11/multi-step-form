@@ -1,7 +1,7 @@
+import { Book } from "@/apis/book/vo/book";
 import { ReadingStatus } from "@/apis/review/vo/readingStatus";
 import { ErrorMessage } from "@/components/common/ErrorMessage";
 import { FunnelStepComponentProps } from "@/hooks/funnel/types";
-import { Book } from "@/types/book";
 import { isNil, isNotNil } from "@/utils/TypeUtil";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";

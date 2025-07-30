@@ -1,6 +1,6 @@
+import { Book } from "@/apis/book/vo/book";
 import { FormFrame } from "@/components/common/FormFrame";
 import { FunnelStepComponentProps } from "@/hooks/funnel/types";
-import { Book } from "@/types/book";
 import styled from "@emotion/styled";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";

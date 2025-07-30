@@ -1,4 +1,4 @@
-import { Book } from "@/types/book";
+import { Book } from "@/apis/book/vo/book";
 import { isNil, isNotNil, optionalInput } from "@/utils/TypeUtil";
 import * as z from "zod";
 import { quoteSchema } from "../../../apis/review/vo/quote";
