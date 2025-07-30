@@ -16,13 +16,13 @@ export const useBooks = () => {
     queryFn: () => readBookList(),
   });
 
-  const getBook = (bookId: string) => {
+  const getBookById = (bookId: string) => {
     return data.books.find((book: Book) => book.id === bookId);
   };
 
   return {
     books: data.books,
-    getBook,
+    getBookById,
     ...rest,
   };
 };
