@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "tsc": "tsc --noEmit --ㅁwatch"
   },
   "dependencies": {
     "@emotion/css": "^11.13.5",
@@ -17,6 +18,7 @@
     "next": "15.3.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-error-boundary": "^6.0.0",
     "react-hook-form": "^7.60.0",
     "zod": "^4.0.5"
   },
